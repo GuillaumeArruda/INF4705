@@ -1,5 +1,5 @@
 #include "Matrix.h"
-
+#include <stdexcept>
 int Matrix::m_leafSize = 4;
 
 Matrix::Matrix(int size)
@@ -12,18 +12,18 @@ Matrix::Matrix(int size)
 
 Matrix::Matrix(Matrix& m, int size, int start)
     : m_size(size)
-    , m_ownMemory(false)
     , m_memoryLineSize(m.m_size)
+    , m_ownMemory(false)
 {
     m_data = m.m_data + start;
 }
 
 Matrix::Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22)
-    : m__size(c11.m_size * 2)
+    : m_size(c11.m_size * 2)
     , m_memoryLineSize(c11.m_size * 2)
     , m_ownMemory(true)
 {
-    m_data = new int[m__size * m_size];
+    m_data = new int[m_size * m_size];
     for (int i = 0; i < c11.m_size; ++i)
     {
         for (int j = 0; i < c11.m_leafSize; ++j)
@@ -62,18 +62,18 @@ Matrix::~Matrix()
     }
 }
 
-Matrix Matrix::conventionalMultiplication(const Matrix& m)
+Matrix Matrix::conventionalMultiplication(Matrix& l, Matrix& m)
 {
-    if (m.m_size == m_size)
+    if (m.m_size == l.m_size)
     {
-        Matrix result(m_size);
-        for (int i = 0; i < m_size; ++i)
+        Matrix result(l.m_size);
+        for (int i = 0; i < l.m_size; ++i)
         {
-            for (int j = 0; j < m_size; ++j)
+            for (int j = 0; j < l.m_size; ++j)
             {
-                for (int k = 0; k < m_size; ++k)
+                for (int k = 0; k < l.m_size; ++k)
                 {
-                    result.m_data[i * m_memoryLineSize + j] += m_data[i * m_memoryLineSize + j + k] * m.m_data[i * m_memoryLineSize + j + k * m_memoryLineSize];
+                    result.m_data[i * l.m_memoryLineSize + j] += l.m_data[i * l.m_memoryLineSize + j + k] * m.m_data[i * m.m_memoryLineSize + j + k * m.m_memoryLineSize];
                 }
             }
         }
@@ -81,11 +81,11 @@ Matrix Matrix::conventionalMultiplication(const Matrix& m)
     }
     else
     {
-        throw new std::invalid_argument();
+        throw new std::invalid_argument("");
     }
 }
 
-Matrix& Matrix::operator+(const Matrix& m)
+Matrix Matrix::operator+(const Matrix& m)
 {
     Matrix result(m_size);
     for (int i = 0; i < m_size; ++i)
@@ -98,7 +98,7 @@ Matrix& Matrix::operator+(const Matrix& m)
     return result;
 }
 
-Matrix& Matrix::operator-(const Matrix& m)
+Matrix Matrix::operator-(const Matrix& m)
 {
     Matrix result(m_size);
     for (int i = 0; i < m_size; ++i)
@@ -111,21 +111,21 @@ Matrix& Matrix::operator-(const Matrix& m)
     return result;
 }
 
-Matrix Matrix::strassenMultiplication(const Matrix& l, const Matrix& r)
+Matrix Matrix::strassenMultiplication(Matrix& l, Matrix& r)
 {
-    if (l.m_size == r.m_size && (l.m_size & (~l.m_size + 1)) == l.m_size)) //Check is m_size is power of 2
+    if (l.m_size == r.m_size && (l.m_size & (~l.m_size + 1)) == l.m_size) //Check is m_size is power of 2
     {
         if (l.m_size == m_leafSize)
         {
-            return conventionalMultiplication(r);
+            return conventionalMultiplication(l,r);
         }
         else
         {
             int newSize = l.m_size / 2;
-            Matrix a11(this, newSize, 0);
-            Matrix a12(this, newSize, newSize);
-            Matrix a21(this, newSize, newSize * l.m_memoryLineSize);
-            Matrix a22(this, newSize, newSize * l.m_memoryLineSize + newSize);
+            Matrix a11(l, newSize, 0);
+            Matrix a12(l, newSize, newSize);
+            Matrix a21(l, newSize, newSize * l.m_memoryLineSize);
+            Matrix a22(l, newSize, newSize * l.m_memoryLineSize + newSize);
             Matrix b11(r, newSize, 0);
             Matrix b12(r, newSize, newSize);
             Matrix b21(r, newSize, newSize * l.m_memoryLineSize);
@@ -167,6 +167,6 @@ Matrix Matrix::strassenMultiplication(const Matrix& l, const Matrix& r)
     }
     else
     {
-        throw new std::invalid_argument();
+        throw new std::invalid_argument("");
     }
 }

@@ -9,10 +9,10 @@ public:
     Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22);
     ~Matrix();
 
-    Matrix conventionalMultiplication(const Matrix& m);
-    static Matrix strassenMultiplication(const Matrix& m);
-    Matrix& operator+(const Matrix& m);
-    Matrix& operator-(const Matrix& m)
+    static Matrix conventionalMultiplication(Matrix& l,Matrix& m);
+    static Matrix strassenMultiplication(Matrix& l, Matrix& r);
+    Matrix operator+(const Matrix& m);
+    Matrix operator-(const Matrix& m);
 private:
     int m_size;
     int m_memoryLineSize;
