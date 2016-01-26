@@ -12,6 +12,18 @@ Matrix::Matrix(int size)
     m_data = new int[m_size*m_size];
 }
 
+Matrix::Matrix(int size, int* data)
+    : m_size(size)
+    , m_memoryLineSize(size)
+    , m_ownMemory(true)
+{
+    m_data = new int[m_size * m_size];
+    for(int i = 0; i < size * size; ++i)
+    {
+        m_data[i] = data[i];
+    }
+}
+
 Matrix::Matrix(const Matrix& m)
     : m_size(m.m_size)
     , m_memoryLineSize(m.m_size)
@@ -30,20 +42,6 @@ Matrix::Matrix(Matrix& m, int size, int start)
     , m_ownMemory(false)
 {
     m_data = m.m_data + start;
-}
-
-void Matrix::setData(int* data, int size)
-{
-    if(m_size < size)
-    {
-        delete[] m_data;
-        m_size = size;
-        m_data = new int[m_size * m_size];
-    }
-    for(int i = 0; i < size * size; ++i)
-    {
-        m_data[i] = data[i];
-    }
 }
 
 Matrix::Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22)
@@ -143,7 +141,7 @@ Matrix Matrix::strassenMultiplication(Matrix& l, Matrix& r)
 {
     if (l.m_size == r.m_size && (l.m_size & (~l.m_size + 1)) == l.m_size) //Check is m_size is power of 2
     {
-        if (l.m_size == m_leafSize)
+        if (l.m_size <= m_leafSize)
         {
             return conventionalMultiplication(l,r);
         }
@@ -182,9 +180,9 @@ Matrix Matrix::strassenMultiplication(Matrix& l, Matrix& r)
             aTemp = m1 + m4;
             bTemp = aTemp + m7;
             Matrix c11 = bTemp - m5; // m1 + m4 - m5 + m7
-            aTemp = m1 + m3;
+            aTemp = m1 + m3 + m6;
             bTemp = aTemp + m6;
-            Matrix c22 = bTemp - m2; // m1 - m2 + m3 + m6
+            Matrix c22 = aTemp - m2; // m1 - m2 + m3 + m6
 
             return Matrix(c11, c12, c21, c22);
         }
