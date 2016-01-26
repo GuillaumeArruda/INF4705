@@ -5,10 +5,13 @@ class Matrix
 {
 public:
     Matrix(int size);
+    Matrix(const Matrix& m);
     Matrix(Matrix& m,int size, int start);
     Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22);
     ~Matrix();
 
+    void setData(int* data, int size);
+    void print();
     static Matrix conventionalMultiplication(Matrix& l,Matrix& m);
     static Matrix strassenMultiplication(Matrix& l, Matrix& r);
     Matrix operator+(const Matrix& m);
