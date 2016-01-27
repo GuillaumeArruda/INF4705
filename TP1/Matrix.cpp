@@ -2,20 +2,16 @@
 #include <stdexcept>
 #include <iostream>
 
-int Matrix::m_leafSize = 1;
+int Matrix::m_leafSize = 512;
 
 Matrix::Matrix(int size)
     : m_size(size)
-    , m_memoryLineSize(size)
-    , m_ownMemory(true)
 {
     m_data = new int[m_size*m_size];
 }
 
 Matrix::Matrix(int size, int* data)
     : m_size(size)
-    , m_memoryLineSize(size)
-    , m_ownMemory(true)
 {
     m_data = new int[m_size * m_size];
     for(int i = 0; i < size * size; ++i)
@@ -26,8 +22,6 @@ Matrix::Matrix(int size, int* data)
 
 Matrix::Matrix(const Matrix& m)
     : m_size(m.m_size)
-    , m_memoryLineSize(m.m_size)
-    , m_ownMemory(true)
 {
     m_data = new int[m_size * m_size];
     for(int i = 0; i < m_size * m_size; ++i)
@@ -36,59 +30,60 @@ Matrix::Matrix(const Matrix& m)
     }
 }
 
-Matrix::Matrix(Matrix& m, int size, int start)
+Matrix::Matrix(const Matrix& m, int size, int start)
     : m_size(size)
-    , m_memoryLineSize(m.m_memoryLineSize)
-    , m_ownMemory(false)
 {
-    m_data = m.m_data + start;
+    //m_data = m.m_data + start;
+    m_data  = new int[m_size * m_size];
+    for(int i = 0; i < m_size; ++i)
+    {
+        for(int j = 0; j < m_size; ++j)
+        {
+            m_data[i * m_size + j] = m.m_data[i * m.m_size + start];
+        }
+    }
 }
 
-Matrix::Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22)
+Matrix::Matrix(const Matrix& c11,const Matrix& c12,const Matrix& c21,const Matrix& c22)
     : m_size(c11.m_size * 2)
-    , m_memoryLineSize(c11.m_size * 2)
-    , m_ownMemory(true)
 {
     m_data = new int[m_size * m_size];
     for (int i = 0; i < c11.m_size; ++i)
     {
         for (int j = 0; j < c11.m_size; ++j)
         {
-            m_data[i * m_memoryLineSize + j] = c11.m_data[i * c11.m_memoryLineSize + j];
+            m_data[i * m_size + j] = c11.m_data[i * c11.m_size + j];
         }
     }
     for (int i = 0; i < c12.m_size; ++i)
     {
         for (int j = 0; j < c12.m_size; ++j)
         {
-            m_data[i * m_memoryLineSize + j + c12.m_size] = c12.m_data[i * c12.m_memoryLineSize + j];
+            m_data[i * m_size + j + c12.m_size] = c12.m_data[i * c12.m_size + j];
         }
     }
     for (int i = 0; i < c21.m_size; ++i)
     {
         for (int j = 0; j < c21.m_size; ++j)
         {
-            m_data[i * m_memoryLineSize + c21.m_size * m_memoryLineSize + j] = c21.m_data[i * c21.m_memoryLineSize + j];
+            m_data[i * m_size + c21.m_size * m_size + j] = c21.m_data[i * c21.m_size + j];
         }
     }
     for (int i = 0; i < c22.m_size; ++i)
     {
         for (int j = 0; j < c22.m_size; ++j)
         {
-            m_data[i * m_memoryLineSize + c22.m_size * m_memoryLineSize + j + c22.m_size] = c22.m_data[i * c22.m_memoryLineSize + j];
+            m_data[i * m_size + c22.m_size * m_size + j + c22.m_size] = c22.m_data[i * c22.m_size + j];
         }
     }
 }
 
 Matrix::~Matrix()
 {
-    if (m_ownMemory)
-    {
-        //delete[] m_data;
-    }
+    delete[] m_data;
 }
 
-Matrix Matrix::conventionalMultiplication(Matrix& l, Matrix& m)
+Matrix Matrix::conventionalMultiplication(const Matrix& l,const Matrix& m)
 {
     if (m.m_size == l.m_size)
     {
@@ -99,7 +94,7 @@ Matrix Matrix::conventionalMultiplication(Matrix& l, Matrix& m)
             {
                 for (int k = 0; k < l.m_size; ++k)
                 {
-                    result.m_data[i * l.m_memoryLineSize + j] += l.m_data[k * l.m_memoryLineSize + j] * m.m_data[i * m.m_memoryLineSize + k];
+                    result.m_data[i * l.m_size + j] += l.m_data[k * l.m_size + j] * m.m_data[i * m.m_size + k];
                 }
             }
         }
@@ -118,7 +113,7 @@ Matrix Matrix::operator+(const Matrix& m)
     {
         for (int j = 0; j < m_size; ++j)
         {
-            result.m_data[i * result.m_memoryLineSize + j] = m_data[i * m_memoryLineSize + j] + m.m_data[i*m_memoryLineSize + j];
+            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] + m.m_data[i*m_size + j];
         }
     }
     return result;
@@ -131,13 +126,32 @@ Matrix Matrix::operator-(const Matrix& m)
     {
         for (int j = 0; j < m_size; ++j)
         {
-            result.m_data[i * result.m_memoryLineSize + j] = m_data[i * m_memoryLineSize + j] - m.m_data[i*m_memoryLineSize + j];
+            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] - m.m_data[i*m_size + j];
         }
     }
     return result;
 }
 
-Matrix Matrix::strassenMultiplication(Matrix& l, Matrix& r)
+bool Matrix::operator ==(const Matrix& m)
+{
+    if(m_size != m.m_size)
+    {
+        return false;
+    }
+    for(int i = 0; i < m_size; ++i)
+    {
+        for(int j = 0; j < m_size; ++j)
+        {
+            if(m_data[i * m_size + j] != m.m_data[i * m.m_size + j])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+Matrix Matrix::strassenMultiplication(const Matrix& l,const Matrix& r)
 {
     if (l.m_size == r.m_size && (l.m_size & (~l.m_size + 1)) == l.m_size) //Check is m_size is power of 2
     {
@@ -150,40 +164,25 @@ Matrix Matrix::strassenMultiplication(Matrix& l, Matrix& r)
             int newSize = l.m_size / 2;
             Matrix a11(l, newSize, 0);
             Matrix a12(l, newSize, newSize);
-            Matrix a21(l, newSize, newSize * l.m_memoryLineSize);
-            Matrix a22(l, newSize, newSize * l.m_memoryLineSize + newSize);
+            Matrix a21(l, newSize, newSize * l.m_size);
+            Matrix a22(l, newSize, newSize * l.m_size + newSize);
             Matrix b11(r, newSize, 0);
             Matrix b12(r, newSize, newSize);
-            Matrix b21(r, newSize, newSize * r.m_memoryLineSize);
-            Matrix b22(r, newSize, newSize * r.m_memoryLineSize + newSize);
+            Matrix b21(r, newSize, newSize * r.m_size);
+            Matrix b22(r, newSize, newSize * r.m_size + newSize);
 
-            Matrix aTemp = a11 + a22;
-            Matrix bTemp = b11 + b22;
-            Matrix m1 = strassenMultiplication(aTemp, bTemp); // (a11 + a22) x (b11 + b22)
-            aTemp = a21 + a22;
-            Matrix m2 = strassenMultiplication(aTemp, b11); // (a11 + a22) x b11
-            bTemp = b12 - b22;
-            Matrix m3 = strassenMultiplication(a11, bTemp); // a11 x (b12 - b22)
-            bTemp = b21 - b11;
-            Matrix m4 = strassenMultiplication(a22, bTemp); //a22 x (b21 - b11)
-            aTemp = a11 + a12;
-            Matrix m5 = strassenMultiplication(aTemp, b22); //(a11 + a12) x b22
-            aTemp = a21 - a11;
-            bTemp = b11 +b12;
-            Matrix m6 = strassenMultiplication(aTemp, bTemp); //(a21 - a11) x (b11 + b12)
-            aTemp = a12 - a22;
-            bTemp = b21 + b22;
-            Matrix m7 = strassenMultiplication(aTemp, bTemp); //(a12 - a22) x (b21 + b22)
+            Matrix m1 = strassenMultiplication(a11 + a22, b11 + b22); // (a11 + a22) x (b11 + b22)
+            Matrix m2 = strassenMultiplication(a21+ a22, b11); // (a21 + a22) x b11
+            Matrix m3 = strassenMultiplication(a11, b12 - b22); // a11 x (b12 - b22)
+            Matrix m4 = strassenMultiplication(a22, b21 - b11); //a22 x (b21 - b11)
+            Matrix m5 = strassenMultiplication(a11 + a12, b22); //(a11 + a12) x b22
+            Matrix m6 = strassenMultiplication(a21 - a11, b11 + b12); //(a21 - a11) x (b11 + b12)
+            Matrix m7 = strassenMultiplication(a12 - a22, b21 + b22); //(a12 - a22) x (b21 + b22)
 
+            Matrix c11 = m1 + m4 - m5 + m7; // m1 + m4 - m5 + m7
             Matrix c12 = m3 + m5; // m3 + m5
             Matrix c21 = m2 + m4; // m2 + m4
-            aTemp = m1 + m4;
-            bTemp = aTemp + m7;
-            Matrix c11 = bTemp - m5; // m1 + m4 - m5 + m7
-            aTemp = m1 + m3 + m6;
-            bTemp = aTemp + m6;
-            Matrix c22 = aTemp - m2; // m1 - m2 + m3 + m6
-
+            Matrix c22 = m1 - m2 + m3 + m6; // m1 - m2 + m3 + m6
             return Matrix(c11, c12, c21, c22);
         }
     }
@@ -199,7 +198,7 @@ void Matrix::print()
     {
         for(int j = 0; j < m_size; ++j)
         {
-            std::cout << m_data[i * m_memoryLineSize + j] << ' ';
+            std::cout << m_data[i * m_size + j] << ' ';
         }
         std::cout << std::endl;
     }

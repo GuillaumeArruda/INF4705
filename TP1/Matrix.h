@@ -7,21 +7,20 @@ public:
     Matrix(int size);
     Matrix(int size, int* data);
     Matrix(const Matrix& m);
-    Matrix(Matrix& m,int size, int start);
-    Matrix(Matrix& c11, Matrix& c12, Matrix& c21, Matrix& c22);
+    Matrix(const Matrix& m,int size, int start);
+    Matrix(const Matrix& c11,const Matrix& c12,const Matrix& c21,const Matrix& c22);
     ~Matrix();
 
     void print();
-    static Matrix conventionalMultiplication(Matrix& l,Matrix& m);
-    static Matrix strassenMultiplication(Matrix& l, Matrix& r);
+    static Matrix conventionalMultiplication(const Matrix& l,const Matrix& m);
+    static Matrix strassenMultiplication(const Matrix& l,const Matrix& r);
     Matrix operator+(const Matrix& m);
     Matrix operator-(const Matrix& m);
+    bool operator==(const Matrix& m);
+
 private:
     int m_size;
-    int m_memoryLineSize;
-    bool m_ownMemory;
     int* m_data;
     static int m_leafSize;
 };
-
 #endif // _MATRIX_H_
