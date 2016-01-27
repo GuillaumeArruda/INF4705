@@ -43,12 +43,9 @@ int main(int argc, const char* argv[])
         Matrix l(size, data);
         delete[] data;
         data = parseFileForData(pathToSecondMatrix,size);
-        Matrix r(size,data);
-        delete[] data;
+        Matrix r(size, data);
         clock_t start = std::clock();
         Matrix result = Matrix::strassenMultiplication(l,r);
-        Matrix result2 = Matrix::conventionalMultiplication(l,r);
-        assert(result == result2);
         double duration = (std::clock() -start) / (double) CLOCKS_PER_SEC;
         std::cout << duration << "s" << std::endl;
         if(printResult)

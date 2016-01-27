@@ -2,12 +2,16 @@
 #include <stdexcept>
 #include <iostream>
 
-int Matrix::m_leafSize = 512;
+int Matrix::m_leafSize = 1;
 
 Matrix::Matrix(int size)
     : m_size(size)
 {
     m_data = new int[m_size*m_size];
+    for(int i = 0; i < m_size * m_size; ++i)
+    {
+        m_data[i] = 0;
+    }
 }
 
 Matrix::Matrix(int size, int* data)
@@ -39,7 +43,7 @@ Matrix::Matrix(const Matrix& m, int size, int start)
     {
         for(int j = 0; j < m_size; ++j)
         {
-            m_data[i * m_size + j] = m.m_data[i * m.m_size + start];
+            m_data[i * m_size + j] = m.m_data[i * m.m_size + start + j];
         }
     }
 }
@@ -94,7 +98,7 @@ Matrix Matrix::conventionalMultiplication(const Matrix& l,const Matrix& m)
             {
                 for (int k = 0; k < l.m_size; ++k)
                 {
-                    result.m_data[i * l.m_size + j] += l.m_data[k * l.m_size + j] * m.m_data[i * m.m_size + k];
+                    result.m_data[i * result.m_size + j] += l.m_data[i * l.m_size + k] * m.m_data[k * m.m_size + j];
                 }
             }
         }
@@ -113,7 +117,7 @@ Matrix Matrix::operator+(const Matrix& m)
     {
         for (int j = 0; j < m_size; ++j)
         {
-            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] + m.m_data[i*m_size + j];
+            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] + m.m_data[i * m.m_size + j];
         }
     }
     return result;
@@ -126,7 +130,7 @@ Matrix Matrix::operator-(const Matrix& m)
     {
         for (int j = 0; j < m_size; ++j)
         {
-            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] - m.m_data[i*m_size + j];
+            result.m_data[i * result.m_size + j] = m_data[i * m_size + j] - m.m_data[i * m_size + j];
         }
     }
     return result;
@@ -138,14 +142,11 @@ bool Matrix::operator ==(const Matrix& m)
     {
         return false;
     }
-    for(int i = 0; i < m_size; ++i)
+    for(int i = 0; i < m_size * m_size; ++i)
     {
-        for(int j = 0; j < m_size; ++j)
+        if(m_data[i] != m.m_data[i])
         {
-            if(m_data[i * m_size + j] != m.m_data[i * m.m_size + j])
-            {
-                return false;
-            }
+            return false;
         }
     }
     return true;
@@ -171,17 +172,17 @@ Matrix Matrix::strassenMultiplication(const Matrix& l,const Matrix& r)
             Matrix b21(r, newSize, newSize * r.m_size);
             Matrix b22(r, newSize, newSize * r.m_size + newSize);
 
-            Matrix m1 = strassenMultiplication(a11 + a22, b11 + b22); // (a11 + a22) x (b11 + b22)
-            Matrix m2 = strassenMultiplication(a21+ a22, b11); // (a21 + a22) x b11
-            Matrix m3 = strassenMultiplication(a11, b12 - b22); // a11 x (b12 - b22)
-            Matrix m4 = strassenMultiplication(a22, b21 - b11); //a22 x (b21 - b11)
-            Matrix m5 = strassenMultiplication(a11 + a12, b22); //(a11 + a12) x b22
-            Matrix m6 = strassenMultiplication(a21 - a11, b11 + b12); //(a21 - a11) x (b11 + b12)
-            Matrix m7 = strassenMultiplication(a12 - a22, b21 + b22); //(a12 - a22) x (b21 + b22)
+            Matrix m1 = strassenMultiplication(a11 + a22, b11 + b22);   // (a11 + a22) x (b11 + b22)
+            Matrix m2 = strassenMultiplication(a21+ a22, b11);          // (a21 + a22) x b11
+            Matrix m3 = strassenMultiplication(a11, b12 - b22);         // a11 x (b12 - b22)
+            Matrix m4 = strassenMultiplication(a22, b21 - b11);         //a22 x (b21 - b11)
+            Matrix m5 = strassenMultiplication(a11 + a12, b22);         //(a11 + a12) x b22
+            Matrix m6 = strassenMultiplication(a21 - a11, b11 + b12);   //(a21 - a11) x (b11 + b12)
+            Matrix m7 = strassenMultiplication(a12 - a22, b21 + b22);   //(a12 - a22) x (b21 + b22)
 
             Matrix c11 = m1 + m4 - m5 + m7; // m1 + m4 - m5 + m7
-            Matrix c12 = m3 + m5; // m3 + m5
-            Matrix c21 = m2 + m4; // m2 + m4
+            Matrix c12 = m3 + m5;           // m3 + m5
+            Matrix c21 = m2 + m4;           // m2 + m4
             Matrix c22 = m1 - m2 + m3 + m6; // m1 - m2 + m3 + m6
             return Matrix(c11, c12, c21, c22);
         }
