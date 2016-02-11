@@ -132,8 +132,8 @@ et donc de choisir le plus approprié pour la tâche. Le but de ce laboratoire e
 \end{itemize}
 \section{Revue de la théorie}
 \subsection{Algorithme de Strassen}
-L'algorithme de Strassen est un algorithme de type diviser-pour-régner. Il permet de remplacer 8 multiplications scalaires par 7 multiplications scalaires et 18 additions et soustractions des blocs.
-L'algorithme comporte 3 étapes principales:
+L'algorithme de Strassen est un algorithme de type diviser-pour-régner. Il permet de remplacer 8 multiplications scalaires par 7 multiplications scalaires et 18 additions et soustractions des blocs. 
+Il a comportement asymptotique de O(n2.807). L'algorithme comporte 3 étapes principales:
 \begin{itemize}
 \item La division de la matrice en quatre plus petites matrices.
 \item La multiplication de de différentes combinaisons de ces matrices à l'aide de Strassen ou d'un autre algorithme.
@@ -147,9 +147,11 @@ Le test de rapport est un test empirique.Toutefois,contrairement au test de puis
 du comportement de l'algorithme et d'estimer la constante multiplicative. Le test nescessite de faire une régression linéaire sur les couples de données en divisant la variable dépendante par le résultat
 de la fonction descrivant le comportement de l'algorithme. Si la droite suit les données, alors l'hypothèse est bonne et l'ordonnées à l'origine représente le facteur multiplicatif. Si la pente ne suit pas les données alors la fonction n'est pas correcte.
 \subsection{Test des constantes}
-
+Le test des constantes est similaire au test du rapport. Il consiste à faire la regression linéaire sur les couples (f(x), y) où f(x) est la fonction de croissance de l'algorithme. Si la droite passe bien 
+à travers les données alors son taux de variation représente le facteur multiplicatif et son ordonnée à l'origine un coût constant de son execution.
 \section{Protocol expérimental}
 La première étape de ce laboratoire à été l'implémentation de l'algorithme de Strassen et de multiplication conventionnel en C++. L'algorithme de Strassen a ensuite été testé en lui faisant effectué 25 multiplication de matrices 2048 par 2048 avec plusieurs seuils de récursivité pour trouver le seuil optimal. Une fois le seuil optimal trouvé, des données ont été recueillie pour des tailles de matrices allant de 64 par 64 jusqu'à 1024 par 1024 pour l'algorithme conventionnel, Strassen sans seuil, Strassen avec le seuil optimal, Strassen avec le seuil optimal divisé par 4 et Strassen avec le seuil optimal multiplié par 4. Ces données ont ensuite été utilisé pour appliquer les tests de puissance et de rapport.
+
 \section{Présentation des résultats}
 %leafsize 1
 \begin{table}[H]
@@ -211,8 +213,11 @@ La première étape de ce laboratoire à été l'implémentation de l'algorithme
     \hline  
     \end{tabular}
 \end{table}
+
 \section{Analyse et discussion}
+
 \section{Conclusion}
+
 \section{Bibliographie}
 %----------------------------------------------------------------------------------------
 \end{document}
