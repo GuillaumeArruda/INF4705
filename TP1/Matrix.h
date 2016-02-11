@@ -17,7 +17,7 @@ public:
     Matrix operator+(const Matrix& m);
     Matrix operator-(const Matrix& m);
     bool operator==(const Matrix& m);
-
+    static void setLeafSize(int leafSize);
 private:
     int m_size;
     int* m_data;

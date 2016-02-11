@@ -31,6 +31,9 @@ int main(int argc, const char* argv[])
                     pathToSecondMatrix = argv[++i];
                 }
                 break;
+            case 'l':
+                Matrix::setLeafSize(atoi(argv[++i]));
+                break;
             default:
                 break;
             }
@@ -45,9 +48,9 @@ int main(int argc, const char* argv[])
         data = parseFileForData(pathToSecondMatrix,size);
         Matrix r(size, data);
         clock_t start = std::clock();
-        Matrix result = Matrix::strassenMultiplication(l,r);
+        Matrix result = Matrix::conventionalMultiplication(l,r);
         double duration = (std::clock() -start) / (double) CLOCKS_PER_SEC;
-        std::cout << duration << "s" << std::endl;
+        std::cout << duration << std::endl;
         if(printResult)
         {
             result.print();

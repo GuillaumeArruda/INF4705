@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 
-int Matrix::m_leafSize = 1;
+int Matrix::m_leafSize = 32;
 
 Matrix::Matrix(int size)
     : m_size(size)
@@ -203,4 +203,9 @@ void Matrix::print()
         }
         std::cout << std::endl;
     }
+}
+
+void Matrix::setLeafSize(int leafSize)
+{
+    m_leafSize = leafSize;
 }
