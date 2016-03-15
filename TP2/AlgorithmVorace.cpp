@@ -1,8 +1,9 @@
 #include "AlgorithmVorace.h"
-#include <cstdlib>
+#include <random>
 
 AlgorithmVorace::AlgorithmVorace()
 {
+    
 }
 
 
@@ -13,9 +14,12 @@ AlgorithmVorace::~AlgorithmVorace()
 Solution AlgorithmVorace::concreteSolve(const Problem& problem)
 {
     Solution bestSolution(problem);
+    std::uniform_real_distribution<float> randomGenerator = std::uniform_real_distribution<float>(0.f, 1.f);
     for (int i = 0; i < 10; i++)
     {
         Solution tempSolution(problem);
+        std::random_device rd;
+        std::mt19937 gen(rd());
         std::vector<Location> possibleLocationLeft(problem.locations);
         std::vector<float> locationProbability;
         while (possibleLocationLeft.size() > 0)
@@ -31,7 +35,7 @@ Solution AlgorithmVorace::concreteSolve(const Problem& problem)
             {
                 locationProbability[i] /= totalCost;
             }
-            float chosenLocation = float(std::rand()) / RAND_MAX;
+            float chosenLocation = randomGenerator(gen);
             float totalProbability = 0.f;
             for (size_t i = 0; i < locationProbability.size(); ++i)
             {
