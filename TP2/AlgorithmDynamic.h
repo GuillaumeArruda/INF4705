@@ -1,7 +1,21 @@
 #pragma once
 #include "Algorithm.h"
-class AlgorithmDynamic :
-    public Algorithm
+
+struct Node
+{
+	int value;
+	int id;
+	Node* node;
+
+	Node()
+	{
+		value = 0;
+		id = 0;
+		node = nullptr;
+	}
+};
+
+class AlgorithmDynamic : public Algorithm
 {
 public:
     AlgorithmDynamic();
