@@ -1,5 +1,4 @@
 #include <iostream>
-#include <set>
 #include "AlgorithmDynamic.h"
 
 AlgorithmDynamic::AlgorithmDynamic()
@@ -14,19 +13,19 @@ AlgorithmDynamic::~AlgorithmDynamic()
 Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 {
 	Solution solution = Solution(problem);
-	int i = problem.locations.size();
-	int j = problem.totalChickenProduction + 1;
+    int numberOfLocation = problem.locations.size();
+    int maxChickenConsommation = problem.totalChickenProduction + 1;
 
 	// Initialize results
-	Node** income = new Node*[i];
-	for (int k = 0; k < i; ++k)
+    Node** income = new Node*[numberOfLocation];
+    for (int k = 0; k < numberOfLocation; ++k)
 	{
-		income[k] = new Node[j];
+        income[k] = new Node[maxChickenConsommation];
 	}
 
 	// Fill with first location
 	auto firstLocation = problem.locations[0];
-	for (int l = 0; l < j; ++l)
+    for (int l = 0; l < maxChickenConsommation; ++l)
 	{
 		income[0][l].node = nullptr;
 		if (l - firstLocation.chickenConsommation >= 0)
@@ -42,14 +41,14 @@ Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 	}
 
 	// Fill with locations
-	for (int k = 1; k < i; ++k)
+    for (int k = 1; k < numberOfLocation; ++k)
 	{
 		Location location = problem.locations[k];
-		for (int l = 0; l < j; ++l)
+        for (int l = 0; l < maxChickenConsommation; ++l)
 		{
 			int valueWithoutNewLocation = income[k - 1][l].value;
 			int valueWithNewLocation = 0;
-			if (l - location.chickenConsommation >= 0)
+            if (l - location.chickenConsommation >= 0)
 			{
 				valueWithNewLocation = income[k - 1][l - location.chickenConsommation].value + location.income;
 			}
@@ -62,7 +61,14 @@ Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 			}
 			else
 			{
-				income[k][l].node = &income[k - 1][l - location.chickenConsommation];
+                if(l - location.chickenConsommation < 0 )
+                {
+                     income[k][l].node = nullptr;
+                }
+                else
+                {
+                    income[k][l].node = &income[k - 1][l - location.chickenConsommation];
+                }
 				income[k][l].value = valueWithNewLocation;
 				income[k][l].id = location.id;
 			}
@@ -70,18 +76,15 @@ Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 	}
 
 	std::vector<int> ids;
-	Node* node = &income[i - 1][j - 1];
-
-	int lastId = 0;
-	while (node != nullptr)
-	{
-		if (node->id != lastId && node->id != 0)
-		{
-			ids.push_back(node->id);
-			lastId = node->id;
-		}
-		node = node->node;
-	}
+    int lastId = -1;
+    for(auto node = &income[numberOfLocation -1][maxChickenConsommation -1]; node != nullptr; node = node->node)
+    {
+        if (node->id != lastId)
+        {
+            ids.push_back(node->id);
+            lastId = node->id;
+        }
+    }
 
 	for (auto&& id : ids)
 	{
