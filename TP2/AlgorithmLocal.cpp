@@ -15,7 +15,7 @@ Solution AlgorithmLocal::concreteSolve(const Problem& problem)
 {
     AlgorithmVorace vorace;
     Solution solution(problem);
-    solution = vorace.solve(problem, false);
+    solution = vorace.solve(problem, false, false);
     bool bestSolutionReached = false;
     std::vector<Location> locationNotInSolution(problem.locations.size());
     std::sort(solution.locations.begin(), solution.locations.end());
@@ -28,11 +28,11 @@ Solution AlgorithmLocal::concreteSolve(const Problem& problem)
         int bestIncome = solutionTotalIncome;
         int removeIndex = -1;
         int addIndex = -1;
-        for (int i = 0; i < solution.locations.size(); ++i)
+        for (size_t i = 0; i < solution.locations.size(); ++i)
         {
             int currentIncome = solutionTotalIncome - solution.locations[i].income;
             int currentConsommation = solutionTotalConsommation - solution.locations[i].chickenConsommation;
-            for (int j = 0; j < locationNotInSolution.size(); ++j)
+            for (size_t j = 0; j < locationNotInSolution.size(); ++j)
             {
                 if (currentConsommation + locationNotInSolution[j].chickenConsommation < problem.totalChickenProduction)
                 {

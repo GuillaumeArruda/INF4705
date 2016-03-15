@@ -11,7 +11,7 @@ Algorithm::~Algorithm()
 {
 }
 
-Solution Algorithm::solve(const Problem& problem, bool printResult)
+Solution Algorithm::solve(const Problem& problem, bool printResult, bool printTime)
 {
     clock_t start = std::clock();
     Solution solution = concreteSolve(problem);
@@ -20,6 +20,11 @@ Solution Algorithm::solve(const Problem& problem, bool printResult)
     {
         solution.print();
     }
-    std::cout << "Duration: " << duration << "s" << std::endl;
+    if(printTime)
+    {
+        //std::cout << "Duration: " << duration << "s" << std::endl;
+        std::cout << problem.locations.size() << ", " << problem.totalChickenProduction << ", " << duration << std::endl;
+    }
+
     return solution;
 }
