@@ -7,6 +7,6 @@ public:
     virtual ~Algorithm();
     Solution solve(const Problem& problem, bool printResult);
 private:
-    virtual Solution concreteSolve(const Problem& problem, Solution& solution) = 0;
+    virtual Solution concreteSolve(const Problem& problem) = 0;
 };
 

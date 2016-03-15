@@ -11,7 +11,7 @@ Solution::~Solution()
 
 bool Solution::isValid()
 {
-    return totalConsommation() < totalChickenProduction;
+    return (totalConsommation() < totalChickenProduction) && locations.size() > 0;
 }
 
 void Solution::print()

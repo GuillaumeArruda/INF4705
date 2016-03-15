@@ -9,7 +9,8 @@ AlgorithmDynamic::~AlgorithmDynamic()
 {
 }
 
-Solution AlgorithmDynamic::concreteSolve(const Problem& problem, Solution& solution)
+Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 {
+    Solution solution(problem);
     return solution;
 }

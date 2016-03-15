@@ -7,6 +7,6 @@ public:
     AlgorithmVorace();
     virtual ~AlgorithmVorace();
 private:
-    virtual Solution concreteSolve(const Problem& problem, Solution& solution) override;
+    virtual Solution concreteSolve(const Problem& problem) override;
 };
 
