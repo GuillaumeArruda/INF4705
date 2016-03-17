@@ -107,8 +107,8 @@ Dans le cadre du cours
 \thispagestyle{empty}
 \clearpage\maketitle % Print the title section
 \pagebreak[4]
-\tableofcontents
-\pagebreak[4]
+%\tableofcontents
+%\pagebreak[4]
 %----------------------------------------------------------------------------------------
 %	En tête et pieds de page 
 %----------------------------------------------------------------------------------------
@@ -124,21 +124,178 @@ Dans le cadre du cours
 %	ESSAY BODY
 %----------------------------------------------------------------------------------------
 \section*{Introduction}
+Le but de ce laboratoire était d'implémenter et d'analyser différents algorithmes pour la mise en place de succursale de la chaine
+W\&A. 3 algorithmes d'optimisations de solutions ont été créés pour maximiser les profits tout en respectant les contraintes de production
+locales. Au niveau académique, ce laboratoire nous a permis de pratiquer l'implémentation d'algorithmes pour des problèmes réelles simplifiés. Les algorithmes implémentés sont: vorace probabiliste, à heuristique d'amélioration locale et à programmation dynamique.
 \section*{Jeu de données}
+Les jeux de données utilisé pour tester nos algorithmes sont composés de plusieurs locations qui possèdent un numéro d'identification, un revenu et une consommation de poulet. Chaque jeu de données possède aussi une production de poulet maximale qui correspond à la contrainte pour nos algorithmes. Le nombre de location testé varie de 10 à 1000 et la consommation maximale de 11 à 49097.
 \section*{Présentation des résultats}
-\subsection*{Algorithme vorace probabiliste}
-\subsection*{Algorithme heuristique d'amélioration locale}
-\subsection*{Algorithme de programmation dynamique}
+\begin{table}[H]
+\caption{Temps moyen d'exécution de l'algorithme vorace}
+\centering
+\begin{tabular}{| l | c | c | c |}
+\hline
+taille d'échantillon & production moyenne & temps moyen(ms)  & Revenu moyen\\
+\hline
+10 & 11 & 0.0414 & 11.78\\
+\hline
+10 & 101 & 0.0395 & 104.2\\
+\hline
+10 & 1001 & 0.0445 & 1101.875\\
+\hline
+20 & 11 & 0.0529 & 12.2\\
+\hline
+20 & 101 & 0.0536 & 114.8\\
+\hline
+20 & 1001 & 0.0545 & 1148.33\\
+\hline
+50 & 11 & 0.0934 & 0\\
+\hline
+50 & 101 & 0.0986 & 0\\
+\hline
+50 & 1001 & 0.093 & 0\\
+\hline
+100 & 28.375 & 0.244 & 0\\
+\hline
+100 & 282.625 & 0.238 & 0\\
+\hline
+100 & 2255 & 0.243 & 0\\
+\hline
+200 & 48.375 & 0.787 & 0\\
+\hline
+200 & 462 & 0.833 & 0\\
+\hline
+200 & 5240 & 0.809 & 0\\
+\hline
+500 & 150.2 & 4.80 & 0\\
+\hline
+500 & 1388.2 & 4.89  & 0\\
+\hline
+500 & 13367.2 & 5.31 & 0\\
+\hline
+1000 & 302 & 18.83 & 0\\
+\hline
+1000 & 2780 & 19.33 & 0\\
+\hline
+1000 & 27102.9 & 19.26 & 0\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\caption{Temps moyen d'exécution de l'algorithme d'heuristique d'amélioration locale}
+\centering
+\begin{tabular}{| l | c | c | c |}
+\hline
+taille d'échantillon & production moyenne & temps moyen(ms)  & Revenu moyen\\
+\hline
+10 & 11 & 0 & 0\\
+\hline
+10 & 101 & 0 & 0\\
+\hline
+10 & 1001 & 0 & 0\\
+\hline
+20 & 11 & 0 & 0\\
+\hline
+20 & 101 & 0 & 0\\
+\hline
+20 & 1001 & 0 & 0\\
+\hline
+50 & 11 & 0 & 0\\
+\hline
+50 & 101 & 0 & 0\\
+\hline
+50 & 1001 & 0 & 0\\
+\hline
+100 & 28.375 & 0 & 0\\
+\hline
+100 & 282.625 & 0 & 0\\
+\hline
+100 & 2255 & 0 & 0\\
+\hline
+200 & 48.375 & 0 & 0\\
+\hline
+200 & 462 & 0 & 0\\
+\hline
+200 & 5240 & 0 & 0\\
+\hline
+500 & 150.2 & 0& 0\\
+\hline
+500 & 1388.2 & 0 & 0\\
+\hline
+500 & 13367.2 & 0 & 0\\
+\hline
+1000 & 302 & 0 & 0\\
+\hline
+1000 & 2780 & 0 & 0\\
+\hline
+1000 & 27102.9 & 0 & 0\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\caption{Temps moyen d'exécution de l'algorithme de programmation dynamique}
+\centering
+\begin{tabular}{| l | c | c | c |}
+\hline
+taille d'échantillon & production moyenne & temps moyen(ms)  & Revenu moyen\\
+\hline
+10 & 11 & 0 & 0\\
+\hline
+10 & 101 & 0 & 0\\
+\hline
+10 & 1001 & 0 & 0\\
+\hline
+20 & 11 & 0 & 0\\
+\hline
+20 & 101 & 0 & 0\\
+\hline
+20 & 1001 & 0 & 0\\
+\hline
+50 & 11 & 0 & 0\\
+\hline
+50 & 101 & 0 & 0\\
+\hline
+50 & 1001 & 0 & 0\\
+\hline
+100 & 28.375 & 0 & 0\\
+\hline
+100 & 282.625 & 0 & 0\\
+\hline
+100 & 2255 & 0 & 0\\
+\hline
+200 & 48.375 & 0 & 0\\
+\hline
+200 & 462 & 0 & 0\\
+\hline
+200 & 5240 & 0 & 0\\
+\hline
+500 & 150.2 & 0 & 0\\
+\hline
+500 & 1388.2 & 0 & 0\\
+\hline
+500 & 13367.2 & 0 & 0\\
+\hline
+1000 & 302 & 0 & 0\\
+\hline
+1000 & 2780 & 0 & 0\\
+\hline
+1000 & 27102.9 & 0 & 0\\
+\hline
+\end{tabular}
+\end{table}
 \section*{Analyse et discussion}
 \subsection*{Algorithme vorace probabiliste}
 \subsubsection*{Analyse asymptotique}
 \subsubsection*{Analyse hybride}
+
 \subsection*{Algorithme heuristique d'amélioration locale}
 \subsubsection*{Analyse asymptotique}
+
 \subsubsection*{Analyse hybride}
 \subsection*{Algorithme de programmation dynamique}
 \subsubsection*{Analyse asymptotique}
 \subsubsection*{Analyse hybride}
 %----------------------------------------------------------------------------------------
 \end{document}
+\grid
 \grid
