@@ -48,12 +48,13 @@ Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 		{
 			int valueWithoutNewLocation = income[k - 1][l].value;
 			int valueWithNewLocation = 0;
+
             if (l - location.chickenConsommation >= 0)
 			{
 				valueWithNewLocation = income[k - 1][l - location.chickenConsommation].value + location.income;
 			}
 
-			if (valueWithNewLocation < valueWithoutNewLocation)
+			if (valueWithNewLocation <= valueWithoutNewLocation)
 			{
 				income[k][l].node = &income[k - 1][l];
 				income[k][l].value = valueWithoutNewLocation;
@@ -61,35 +62,22 @@ Solution AlgorithmDynamic::concreteSolve(const Problem& problem)
 			}
 			else
 			{
-                if(l - location.chickenConsommation < 0 )
-                {
-                     income[k][l].node = nullptr;
-                }
-                else
-                {
-                    income[k][l].node = &income[k - 1][l - location.chickenConsommation];
-                }
+                income[k][l].node = &income[k - 1][l - location.chickenConsommation];
 				income[k][l].value = valueWithNewLocation;
 				income[k][l].id = location.id;
 			}
 		}
 	}
 
-	std::vector<int> ids;
     int lastId = -1;
     for(auto node = &income[numberOfLocation -1][maxChickenConsommation -1]; node != nullptr; node = node->node)
     {
-        if (node->id != lastId)
+        if (node->id != lastId && node->id != 0)
         {
-            ids.push_back(node->id);
-            lastId = node->id;
+			solution.locations.push_back(problem.locations[node->id - 1]);
+			lastId = node->id;
         }
     }
-
-	for (auto&& id : ids)
-	{
-		solution.locations.push_back(problem.locations[id - 1]);
-	}
 
 	std::cout << solution.totalIncome() << std::endl;
 	std::cout << solution.totalConsommation() << std::endl;
