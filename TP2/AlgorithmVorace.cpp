@@ -42,12 +42,11 @@ Solution AlgorithmVorace::concreteSolve(const Problem& problem)
                 totalProbability += locationProbability[i];
                 if (totalProbability > chosenLocation)
                 {
-                    tempSolution.locations.push_back(possibleLocationLeft[i]);
-                    possibleLocationLeft.erase(possibleLocationLeft.begin() + i);
-                    if (!tempSolution.isValid())
+                    if (possibleLocationLeft[i].chickenConsommation + tempSolution.totalConsommation() <  tempSolution.totalChickenProduction)
                     {
-                        tempSolution.locations.pop_back();
+                        tempSolution.locations.push_back(possibleLocationLeft[i]);
                     }
+                    possibleLocationLeft.erase(possibleLocationLeft.begin() + i);
                     break;
                 }
             }
