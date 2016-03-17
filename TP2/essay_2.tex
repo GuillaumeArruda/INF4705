@@ -294,7 +294,60 @@ taille d'échantillon & production moyenne & temps moyen(ms)  & Revenu moyen\\
 \subsubsection*{Analyse hybride}
 \subsection*{Algorithme de programmation dynamique}
 \subsubsection*{Analyse asymptotique}
+    L'algorithme implémenté pour cette section est assez simple à analyse de façon
+    asymptotique. Un tableau de taille $i\times j$ doit être rempli pour avoir une solution.
+    Dans notre cas, $i$ représente le nombre de locations différentes et $j$ représente la quantité
+    totale de poulet pouvant être acheté du fournisseur. Remplir ce tableau nécéssite de passer une seule
+    fois sur chacune des cases. On a donc, $\Theta(ij)$. Ensuite, pour obtenir la solution, on doit 
+    revenir de la case finale du tableau vers la case initiale. En pire cas cette marche peut prendre
+    $ij$ opérations. Cela n'a donc pas d'effet sur la complexité algorithmique. Bref, il est possible 
+    d'affirmer que cet algorithme est élément de $\Theta(ij)$.
 \subsubsection*{Analyse hybride}
+    Dans le cas de l'analyse hybride, le test de puissance a été effectué. Pour se faire,
+    nous avons tracé un graphique en trois dimensions des résultats et trouvé le plan
+    passant par les points qui minimisent l'erreur. Celle-ci est donnée par l'équation
+
+    \begin{equation}
+        e = \sum z - ax + by + c
+    \end{equation}
+    
+    où $e$ est l'erreur, $x, y, z$ un trio des points de nos données et a, b, c les constantes du plan
+    à optimiser. Nous avons donc trouvé l'équation du plan suivante :
+
+    \begin{equation}
+        z = 0.953x + 0.909y - 7.828
+    \end{equation}
+
+    En prenant les dérivées partielles par rapport à $x$ et $y$, on trouve : 
+
+    \begin{equation}
+        \frac{\partial z}{\partial x} = 0.953
+    \end{equation}
+    \begin{equation}
+        \frac{\partial z}{\partial y} = 0.909
+    \end{equation}
+
+    L'équation du test de puissance pour nos données est donnée, quant à elle, par:
+
+    \begin{equation}
+        \log f(x,y) = m_{1}\log x + b_{1} + m_{2}\log x + b_{2}
+    \end{equation}
+
+    On peut donc déduire, avec $m_{1} = 0.953$ et $m_{2} = 0.909$ que nous avons une complexité
+    d'environ $\Theta(x^{0.953} + y^{0.909})$ empiriquement ce qui semble bel et bien en accord 
+    avec l'analyse théorique de l'algorithme.
+
+    \begin{figure}
+    	\centering
+        \includegraphics[width=0.95\textwidth]{Figure/AlgorithmeDynamique.png}
+    \end{figure}
+
+    \begin{figure}
+    	\centering
+        \includegraphics[width=0.95\textwidth]{Figure/AlgorithmeDynamique2.png}
+    \end{figure}
+
+
 %----------------------------------------------------------------------------------------
 \end{document}
 \grid
