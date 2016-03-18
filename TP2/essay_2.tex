@@ -286,8 +286,11 @@ taille d'échantillon & production moyenne & temps moyen(ms)  & Revenu moyen(\$)
 \section*{Analyse et discussion}
 \subsection*{Algorithme vorace probabiliste}
 \subsubsection*{Analyse asymptotique}
+L'algorithme a été implémenté à l'aide d'une double boucle qui s'exécutent environ n fois chaque. La boucle est composé d'opération de O(1) et son contenu n'affecte donc pas la complexité. La complexité asymptotique de l'algorithme devrait donc être $\theta(n^{2})$.
 \subsubsection*{Analyse hybride}
-L'analyse hybride de l'algorithme vorace probabiliste a été effectué avec le test de puissance.
+L'analyse hybride de l'algorithme vorace probabiliste a été effectué avec le test de puissance. Elle nous a permis de trouver
+la puissance réelle de notre implémentation qui semble être d'environ 1.38. Ce résultat est en accord avec notre analyse
+asymptotique. La puissance inférieure à deux est expliqué par le fait que l'algorithme ne fait pas $n^2$ itération, mais plutôt $\frac{n^2 + n}{2}$
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{Figure/AlgorithmeVorace}
