@@ -295,7 +295,24 @@ L'analyse hybride de l'algorithme vorace probabiliste a été effectué avec le 
 
 \subsection*{Algorithme heuristique d'amélioration locale}
 \subsubsection*{Analyse asymptotique}
+    Pour l'algorithme local, il est difficile d'évaluer la boucle extérieure qui détermine si une
+    solution est atteinte ou non. En effet, puisque la convergence dépend du problème lui-même ainsi que
+    de la solution initiale retournée par l'algorithme vorace (qui est probabiliste), il est impossible d'affirmer
+    quoi que ce soit. Par contre, dans le cas des remplacements, nous avons trois cas différents. Le premier est 
+    le remplacement un pour un. Dans ce cas là, il est possible d'affirmer que puisqu'il s'agit de toutes les combinaisons
+    entre les deux ensembles la complexité est dans l'ensemble $\Theta(i^{2})$. Dans le cas de remplacement un pour deux 
+    et deux pour un, on a une complexité de $\Theta(i^{3})$ car il faut regarder toutes les permutations de deux éléments dans
+    un ensemble avec un élément de l'autre. Finalement, le remplacement deux par deux devient donc $\Theta(i^{4})$ pour 
+    les mêmes raisons. Puisque le remplacement prend le dessus sur le reste, la boucle intérieur de remplacement est donc
+    de l'ordre de $\Theta(i^{4})$.
 \subsubsection*{Analyse hybride}
+    Dans le cas de l'analyse hybride, un test de puissance a été effectué pour tenter de déterminer quel est l'effet
+    de la boucle de convergence sur notre algorithme. On trouve une pente de $3.32$ ce qui signifie que notre algorithme
+    aurait une complexité polynomiale d'ordre $3.32$. Cela est plus faible que l'analyse asymptotique. Cela peut s'expliquer
+    par le fait que lorsque qu'une location est ajoutée à la solution globale au problème, elle n'est plus utilisée. Cela
+    a pour effet de réduire la taille des vecteurs sur lesquels on itère. Bien qu'en moyenne, ceux-ci auront donc une taille
+    de $\frac{i}{2}$ (Et donc que l'analyse asymptotique est toujours dans l'ordre de $\Theta(i^{4})$), en pratique, 
+    l'algorithme est plus rapide.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{Figure/AlgorithmeLocale}
