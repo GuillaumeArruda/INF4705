@@ -9,6 +9,7 @@ public:
     Matrix(const Matrix& m);
     Matrix(const Matrix& m,int size, int start);
     Matrix(const Matrix& c11,const Matrix& c12,const Matrix& c21,const Matrix& c22);
+    Matrix(Matrix&& moved);
     ~Matrix();
 
     void print();

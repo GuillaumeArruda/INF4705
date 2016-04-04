@@ -82,6 +82,14 @@ Matrix::Matrix(const Matrix& c11,const Matrix& c12,const Matrix& c21,const Matri
     }
 }
 
+Matrix::Matrix(Matrix &&moved)
+{
+    m_data = moved.m_data;
+    moved.m_data = nullptr;
+    m_leafSize = moved.m_leafSize;
+    m_size = moved.m_size;
+}
+
 Matrix::~Matrix()
 {
     delete[] m_data;
