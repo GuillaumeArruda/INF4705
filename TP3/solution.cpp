@@ -22,15 +22,16 @@ void Solution::print()
 int Solution::numberOfObstrucatedStudent()
 {
     int numberOfObstrucatedStudent = 0;
-    for (size_t i = 0; i < students.size(); ++i)
+    int maxHeight = -1;
+    for (auto& student : students)
     {
-        for (size_t j = i; j >= 0; --j)
+        if(student.height > maxHeight)
         {
-            if (students[i].height < students[j].height)
-            {
-                numberOfObstrucatedStudent++;
-                break;
-            }
+            maxHeight = student.height;
+        }
+        else
+        {
+            numberOfObstrucatedStudent++;
         }
     }
     return numberOfObstrucatedStudent;

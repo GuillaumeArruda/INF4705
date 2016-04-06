@@ -15,15 +15,14 @@ Problem::Problem(const std::string& filePath)
             students[i].id = i;
             file >> students[i].height;
         }
-        friends.resize(numberOfStudent);
         for (int i = 0; i < numberOfFriends; ++i)
         {
             int firstFriendId;
             int secondFriendId;
             file >> firstFriendId;
             file >> secondFriendId;
-            friends[firstFriendId - 1].push_back(secondFriendId - 1);
-            friends[secondFriendId - 1].push_back(firstFriendId - 1);
+            students[firstFriendId - 1].friends.push_back(&students[secondFriendId - 1]);
+            students[secondFriendId - 1].friends.push_back(&students[firstFriendId - 1]);
         }
     }
 }
