@@ -10,5 +10,5 @@ struct Solution
     void print();
     int numberOfObstrucatedStudent();
     Problem* m_problem;
-    std::vector<Student> students;
+    std::vector<Student*> students;
 };

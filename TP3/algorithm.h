@@ -5,8 +5,8 @@ class Algorithm
 public:
     Algorithm();
     virtual ~Algorithm();
-    Solution solve(const Problem& problem, bool printResult);
+    Solution solve(Problem& problem, bool printResult);
 private:
-    virtual Solution concreteSolve(const Problem& problem) = 0;
+    virtual Solution concreteSolve(Problem& problem) = 0;
 };
 

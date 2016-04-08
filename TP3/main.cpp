@@ -1,4 +1,4 @@
-#include "algorithm.h"
+#include "voraceAlgorithm.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
         }
     }
     Problem problem(filePath);
+    algo = new VoraceAlgorithm();
     if (algo != NULL)
     {
         if (filePath != std::string())

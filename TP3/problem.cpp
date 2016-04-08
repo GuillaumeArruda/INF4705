@@ -26,3 +26,22 @@ Problem::Problem(const std::string& filePath)
         }
     }
 }
+
+Problem::Problem(const Problem &problem)
+{
+    for(auto& student : problem.students)
+    {
+        Student temp;
+        temp.height = student.height;
+        temp.id = student.id;
+        temp.inSolution = false;
+        students.push_back(temp);
+    }
+    for(auto& student : problem.students)
+    {
+        for(auto& friendOfStudent : student.friends)
+        {
+            students[student.id].friends.push_back(&students[friendOfStudent->id]);
+        }
+    }
+}
