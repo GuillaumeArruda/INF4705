@@ -4,7 +4,7 @@
 
 VoraceAlgorithm::VoraceAlgorithm()
 {
-    std::srand(std::time(nullptr));
+    std::srand(unsigned int(std::time(nullptr)));
 }
 
 Solution VoraceAlgorithm::concreteSolve(Problem &problem)
@@ -14,7 +14,6 @@ Solution VoraceAlgorithm::concreteSolve(Problem &problem)
     {
         students.push_back(&student);
     }
-    Solution realSolution(problem);
     while(true)
     {
         std::vector<Student*> students;
@@ -44,11 +43,9 @@ Solution VoraceAlgorithm::concreteSolve(Problem &problem)
         }
         if(tempSolution.isValid())
         {
-            realSolution = tempSolution;
-            break;
+           return tempSolution;
         }
     }
-    return realSolution;
 }
 
 Student* VoraceAlgorithm::chooseStudent(std::vector<Student*> students)

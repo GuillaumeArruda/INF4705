@@ -119,6 +119,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,12 +151,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="problem.cpp" />
     <ClCompile Include="solution.cpp" />
+    <ClCompile Include="voraceAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm.h" />
     <ClInclude Include="problem.h" />
     <ClInclude Include="solution.h" />
     <ClInclude Include="student.h" />
+    <ClInclude Include="voraceAlgorithm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
