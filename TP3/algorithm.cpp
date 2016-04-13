@@ -13,6 +13,12 @@ Algorithm::~Algorithm()
 Solution Algorithm::solve(Problem& problem, bool printResult)
 {
     Solution bestSolution(problem);
+    Solution bestSolution = concreteSolve(problem);
+    std::cout << bestSolution.numberOfObstrucatedStudent() << std::endl;
+    if (printResult)
+    {
+        bestSolution.print();
+    }
     #pragma omp parallel
     {
         Problem parallelProblem(problem);
@@ -26,6 +32,7 @@ Solution Algorithm::solve(Problem& problem, bool printResult)
                 {
                     std::cout << solution.numberOfObstrucatedStudent() << std::endl;
                    bestSolution = solution;
+                   std::cout << bestSolution.numberOfObstrucatedStudent() << std::endl;
                    if (printResult)
                    {
                        solution.print();
