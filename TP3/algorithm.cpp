@@ -29,7 +29,6 @@ Solution Algorithm::solve(Problem& problem, bool printResult)
                 
                 if(solution.numberOfObstrucatedStudent() < bestSolution.numberOfObstrucatedStudent() || !bestSolution.isValid())
                 {
-                    std::cout << solution.numberOfObstrucatedStudent() << std::endl;
                    bestSolution = solution;
                    std::cout << bestSolution.numberOfObstrucatedStudent() << std::endl;
                    if (printResult)
