@@ -9,11 +9,6 @@ VoraceAlgorithm::VoraceAlgorithm()
 
 Solution VoraceAlgorithm::concreteSolve(Problem &problem)
 {
-    std::vector<Student*> students;
-    for(auto& student : problem.students)
-    {
-        students.push_back(&student);
-    }
     Solution realSolution(problem);
     while(true)
     {
