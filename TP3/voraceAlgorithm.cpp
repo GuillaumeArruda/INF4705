@@ -1,10 +1,11 @@
 #include "voraceAlgorithm.h"
 #include <random>
 #include <ctime>
+#include <algorithm>
 
 VoraceAlgorithm::VoraceAlgorithm()
 {
-    std::srand(unsigned int(std::time(nullptr)));
+    std::srand(size_t(std::time(nullptr)));
 }
 
 Solution VoraceAlgorithm::concreteSolve(Problem &problem)
@@ -76,6 +77,5 @@ Student* VoraceAlgorithm::chooseStudent(std::vector<Student*> students)
             return students[i];
         }
     }
-    int numberOfStudent = probabilities.size();
     return nullptr;
 }

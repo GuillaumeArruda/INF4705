@@ -12,7 +12,6 @@ Algorithm::~Algorithm()
 
 Solution Algorithm::solve(Problem& problem, bool printResult)
 {
-    Solution bestSolution(problem);
     Solution bestSolution = concreteSolve(problem);
     std::cout << bestSolution.numberOfObstrucatedStudent() << std::endl;
     if (printResult)
